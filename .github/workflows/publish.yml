@@ -1,0 +1,44 @@
+# Manual publish to Roblox through Open Cloud.
+# WARNING: this uploads a COMPLETE place file and replaces the place content.
+# The whole world must therefore live in this repo (see docs/WORLD-AND-PUBLISHING.md).
+# Default is "Saved" (visible in Studio only); choose "Published" to go live.
+name: Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: "Saved = not live, Published = live for players"
+        type: choice
+        options: [Saved, Published]
+        default: Saved
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: production # add required reviewers in repo settings for a human gate
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install Rokit
+        run: |
+          curl -sSf https://raw.githubusercontent.com/rojo-rbx/rokit/main/scripts/install.sh | bash
+          echo "$HOME/.rokit/bin" >> "$GITHUB_PATH"
+
+      - run: rokit install --no-trust-check
+      - run: wally install
+        continue-on-error: true
+      - name: Quality gates
+        run: lune run check
+
+      - name: Upload to Roblox
+        env:
+          ROBLOX_API_KEY: ${{ secrets.ROBLOX_API_KEY }}
+          UNIVERSE_ID: ${{ vars.UNIVERSE_ID }}
+          PLACE_ID: ${{ vars.PLACE_ID }}
+        run: |
+          curl --fail-with-body --location --request POST \
+            "https://apis.roblox.com/universes/v1/${UNIVERSE_ID}/places/${PLACE_ID}/versions?versionType=${{ inputs.version_type }}" \
+            --header "x-api-key: ${ROBLOX_API_KEY}" \
+            --header "Content-Type: application/octet-stream" \
+            --data-binary @build/game.rbxl

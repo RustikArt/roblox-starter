@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install Rokit
+        run: |
+          curl -sSf https://raw.githubusercontent.com/rojo-rbx/rokit/main/scripts/install.sh | bash
+          echo "$HOME/.rokit/bin" >> "$GITHUB_PATH"
+
+      - name: Install toolchain (rokit.toml)
+        run: rokit install --no-trust-check
+
+      - name: Install Wally packages
+        run: wally install
+        continue-on-error: true # no dependencies yet is fine
+
+      - name: Quality gates (format, lint, types, tests, build)
+        run: lune run check

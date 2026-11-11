@@ -1,0 +1,31 @@
+{
+  "name": "MyGame",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "Shared": { "$path": "src/shared" },
+      "Packages": { "$path": "Packages" }
+    },
+    "ServerScriptService": {
+      "$className": "ServerScriptService",
+      "Server": { "$path": "src/server" }
+    },
+    "ServerStorage": {
+      "$className": "ServerStorage",
+      "ServerPackages": { "$path": "ServerPackages" }
+    },
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "Client": { "$path": "src/client" }
+      }
+    },
+    "Workspace": {
+      "$className": "Workspace",
+      "$properties": { "FilteringEnabled": true },
+      "Map": { "$path": "world/Map.model.json" }
+    }
+  }
+}

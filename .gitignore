@@ -1,0 +1,25 @@
+# Build outputs
+*.rbxl
+*.rbxlx
+build/
+sourcemap.json
+globalTypes*.d.luau
+roblox.yml
+
+# Packages (installed by `wally install`)
+Packages/*
+!Packages/.gitkeep
+ServerPackages/*
+!ServerPackages/.gitkeep
+wally.lock.tmp
+
+# Secrets - NEVER commit
+.env
+*.key
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json

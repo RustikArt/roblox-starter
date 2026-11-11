@@ -1,0 +1,5 @@
+std = "roblox"
+
+[lints]
+# luau-lsp already checks types; keep selene for style/bug patterns.
+shadowing = "warn"

@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rojo:*)",
+      "Bash(stylua:*)",
+      "Bash(selene:*)",
+      "Bash(luau-lsp:*)",
+      "Bash(lune:*)",
+      "Bash(wally:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Bash(git push --force:*)",
+      "Bash(rm -rf:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "stylua src tests lune" }
+        ]
+      }
+    ]
+  }
+}
